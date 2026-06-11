@@ -2,6 +2,7 @@ import { test, expect } from '../fixtures/index.js';
 import { emitJourneyEvent } from '../shared/rum-bridge.js';
 
 test('standard user completes purchase funnel', async ({ page, markScreenState }) => {
+  // @Scenario: #TS-102 Standard user completes checkout end-to-end
   await page.goto('/');
   await markScreenState('Login', 'default');
 

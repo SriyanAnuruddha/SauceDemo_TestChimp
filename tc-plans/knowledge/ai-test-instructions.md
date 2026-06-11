@@ -74,9 +74,10 @@ Swag Labs is third-party; production RUM cannot live in its bundle. This project
 
 ## ExploreChimp
 
-- **Default sources:** DOM, screenshot, console, network (when `EXPLORECHIMP_ENABLED` is set during `/testchimp test`).
+- **Default sources:** DOM, screenshot, console, metrics (omit NETWORK for Swag Labs — no custom API regex).
 - **Scope:** UI SmartTests under `tc-tests/e2e/` with `markScreenState`.
 - **NETWORK regex:** N/A until custom API domains are in scope (Swag Labs uses standard HTTPS).
+- **Local timeout:** Use `npx playwright test … --timeout 120000 --workers 2` when `EXPLORECHIMP_ENABLED=true` (default 30s is too low for multi-marker checkout flows).
 
 ---
 
@@ -89,6 +90,10 @@ Swag Labs is third-party; production RUM cannot live in its bundle. This project
 ### Q: Local stack reports healthy but tests hit wrong API host
 
 **A:** Confirm `BASE_URL` in `tc-tests/.env-QA` is `https://www.saucedemo.com/` and that `TESTCHIMP_ENV` is unset or `QA` so `.env-QA` loads.
+
+### Q: ExploreChimp runs time out on checkout specs
+
+**A:** Raise per-test timeout (`--timeout 120000`) and reduce parallelism (`--workers 2`). Set `EXPLORECHIMP_SOURCES_TO_ANALYZE=DOM,SCREENSHOT,CONSOLE,METRICS` to skip NETWORK when no regex is configured.
 
 ---
 

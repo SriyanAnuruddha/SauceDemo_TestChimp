@@ -42,7 +42,7 @@ landing → login-success → add-to-cart → cart-view → checkout-started
 | Event title | Status | Trigger | Suggested metadata |
 |-------------|--------|---------|-------------------|
 | `login-success` | done | Redirect to `/inventory.html` after valid credentials | `user.persona`: `standard` \| `performance` \| `problem` (enum, not raw username) |
-| `login-failed` | planned | Error banner visible after submit | `error.kind`: `locked_out` \| `invalid_credentials` \| `required_fields` |
+| `login-failed` | done | Error banner visible after submit | `error.kind`: `locked_out` \| `invalid_credentials` \| `required_fields` |
 
 **Discovery notes:** `locked_out_user` → *"Epic sadface: Sorry, this user has been locked out."*
 
@@ -71,7 +71,7 @@ landing → login-success → add-to-cart → cart-view → checkout-started
 | Event title | Status | Trigger | Suggested metadata |
 |-------------|--------|---------|-------------------|
 | `checkout-started` | done | Land on step one from cart | `cart.item_count_bucket` |
-| `checkout-validation-error` | planned | Continue with empty required fields | `error.kind`: `missing_customer_info` |
+| `checkout-validation-error` | done | Continue with empty required fields | `error.kind`: `missing_customer_info` |
 
 **Discovery notes:** Empty continue → errors for First Name, Last Name, and Postal Code.
 

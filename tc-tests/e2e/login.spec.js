@@ -2,6 +2,7 @@ import { test, expect } from '../fixtures/index.js';
 import { emitJourneyEvent } from '../shared/rum-bridge.js';
 
 test('standard user can log in and reach inventory', async ({ page, markScreenState }) => {
+  // @Scenario: #TS-100 Standard user logs in and reaches inventory
   await page.goto('/');
   await markScreenState('Login', 'default');
 

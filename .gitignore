@@ -1,0 +1,5 @@
+.cursor/mcp.json
+tc-tests/node_modules/
+tc-tests/playwright-report/
+tc-tests/test-results/
+tc-tests/blob-report/

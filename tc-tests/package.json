@@ -1,0 +1,23 @@
+{
+  "name": "testchimp-learn-smarttests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed"
+  },
+  "dependencies": {
+    "@testchimp/playwright": "latest",
+    "@testchimp/rum-js": "^0.1.7",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@testchimp/cli": "latest",
+    "playwright": "^1.60.0"
+  },
+  "overrides": {
+    "playwright": "$playwright",
+    "@playwright/test": "$@playwright/test"
+  }
+}

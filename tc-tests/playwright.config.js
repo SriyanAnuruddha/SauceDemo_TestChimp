@@ -15,11 +15,11 @@ Keep @playwright/test and playwright on the SAME version in package.json (e.g. b
 "Playwright Test did not expect test() to be called here". Verify with: npm ls @playwright/test playwright
 If a dependency nests another playwright, use package.json "overrides" to force a single version.
 
-Global setup: project "setup" runs first (tests/setup/global.setup.spec.js), then "chromium" discovers *.spec.js / *.test.js (and .ts) anywhere under tests/ except setup/. See https://playwright.dev/docs/test-global-setup-teardown#option-1-project-dependencies
+Global setup: project "setup" runs first (tests/setup/global.setup.spec.js), then "chromium" discovers *.spec.{js,ts} anywhere under tests/ except setup/. (TestChimp SmartTests use *.spec.* only — not *.test.*.) See https://playwright.dev/docs/test-global-setup-teardown#option-1-project-dependencies
 **/
 
 dotenv.config({
-  path: `.env-${process.env.TESTCHIMP_ENV || 'QA'}`
+  path: `.env-${process.env.TESTCHIMP_ENV || 'QA'}`,
 });
 
 /**
@@ -27,34 +27,20 @@ dotenv.config({
  * Config file lives in tests/; testDir values are relative to this file.
  */
 export default defineConfig({
-  /* Run tests in files in parallel */
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-
   workers: process.env.CI ? 4 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['list'],
-    ['@testchimp/playwright/reporter', {
-      verbose: false
-    }]
+    ['@testchimp/playwright/reporter', { verbose: false }],
   ],
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL:process.env.BASE_URL,
-    /* Per-step locator/API wait; without this, Playwright uses the test timeout for each action.
-     * Existing projects may omit this in Git; TestChimp platform runs still inject the same default
-     * (15s) into playwright.config when materializing the workspace before `playwright test`. */
+    baseURL: process.env.BASE_URL,
     actionTimeout: 15 * 1000,
-    /* Record trace each run; discard if the test passes (valid TraceMode — not `on-failure`, which Playwright rejects). See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
-    /* Capture screenshots when tests fail */
     screenshot: 'on',
   },
-
   projects: [
     {
       name: 'setup',
@@ -65,8 +51,8 @@ export default defineConfig({
       name: 'chromium',
       dependencies: ['setup'],
       testDir: '.',
-      testIgnore: ['**/setup/**'],
-      testMatch: '**/*.{spec,test}.{js,ts}',
+      testIgnore: ['**/setup/**', '**/scripts/**'],
+      testMatch: '**/*.spec.{js,ts}',
       use: { ...devices['Desktop Chrome'], actionTimeout: 15 * 1000 },
     },
   ],
